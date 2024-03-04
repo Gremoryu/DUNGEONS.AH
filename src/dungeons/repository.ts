@@ -1,6 +1,7 @@
 import { connection } from '../database/db.config';
+import { RowDataPacket } from 'mysql2';
 
-export const getDungeons = async ({ page, limit }: { page: number, limit: number }, { sort, order }: { sort: number, order: string }) => {
+export const getDungeons = async ({ page, limit }: { page: number, limit: number }, { sort, order }: { sort: string, order: string }) => {
     
         let query = 'SELECT * FROM dungeons WHERE deleted = 0';
         const offset = (page - 1) * limit;
@@ -19,10 +20,11 @@ export const getDungeons = async ({ page, limit }: { page: number, limit: number
 
 export const getDungeonById = async (id: number) => {
     
-        let query = 'SELECT * FROM dungeons WHERE id = ? AND deleted = 0';
+        let query = 'SELECT * FROM dungeons WHERE id = ?';
         const [rows] = await connection.execute(query, [id]);
     
-        return rows;
+        const result = rows as RowDataPacket[];
+        return result[0];
 }
 
 export const createDungeon = async (dungeon: any) => {
@@ -30,8 +32,9 @@ export const createDungeon = async (dungeon: any) => {
     const deleted = 0;
     let query = 'INSERT INTO dungeons (name, level, created_at, deleted) VALUES (?, ?, ?, ?)';
     const [result] = await connection.execute(query, [dungeon.name, dungeon.level, created_at, deleted]);
-
-    return result
+    const insertId = (result as any).insertId;
+    const object = await getDungeonById(insertId);
+    return object;
 }
 
 export const updateDungeon = async (id: number, dungeon: any) => {
@@ -39,7 +42,8 @@ export const updateDungeon = async (id: number, dungeon: any) => {
     let query = 'UPDATE dungeons SET name = ?, level = ?, updated_at = ? WHERE id = ? AND deleted = 0';
     const [result] = await connection.execute(query, [dungeon.name, dungeon.level, updated_at, id]);
 
-    return result;
+    const object = await getDungeonById(id);
+    return object;
 }
 
 export const deleteDungeon = async (id: number) => {
@@ -48,5 +52,6 @@ export const deleteDungeon = async (id: number) => {
     let query = 'UPDATE dungeons SET deleted_at = ?, deleted = ? WHERE id = ?';
     const [result] = await connection.execute(query, [deleted_at, deleted, id]);
 
-    return result;
+    const object = await getDungeonById(id);
+    return object;
 }

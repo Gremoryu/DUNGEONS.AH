@@ -4,11 +4,11 @@ import { getGuilds, getGuildById, createGuild, updateGuild, deleteGuild } from "
 
 export const resolvers = {
     Query: {
-        hunters: (_: any, {page, limit}: any, {sort, order}: any) => getHunters({page, limit}, {sort, order}),
+        hunters: (_: any, {page, limit, sort, order}: any,) => getHunters({page, limit}, {sort, order}),
         hunter: (_: any, {id}: any) => getHunterById(id),
-        dungeons: (_: any, {page, limit}: any, {sort, order}: any) => getDungeons({page, limit}, {sort, order}),
+        dungeons: (_: any, {page, limit, sort, order}: any) => getDungeons({page, limit}, {sort, order}),
         dungeon: (_: any, {id}: any) => getDungeonById(id),
-        guilds: (_: any, {page, limit}: any, {sort, order}: any) => getGuilds({page, limit}, {sort, order}),
+        guilds: (_: any, {page, limit, sort, order}: any) => getGuilds({page, limit}, {sort, order}),
         guild: (_: any, {id}: any) => getGuildById(id)
     },
     Mutation: {
@@ -31,6 +31,7 @@ export const resolvers = {
             return await deleteDungeon(id);
         },
         createGuild: async (_: any, {guild}: any) => {
+
             return await createGuild(guild);
         },
         updateGuild: async (_: any, {id, guild}: any) => {
