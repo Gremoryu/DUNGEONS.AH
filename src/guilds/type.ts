@@ -2,7 +2,7 @@ export const Guild = `
     type Guild {
         id: ID
         guild_name: String!
-        id_guild_master: ID!
+        id_guildmaster: Int!
         members: Int!
         created_at: String!
         created_by: String!
@@ -14,7 +14,8 @@ export const Guild = `
 
     input GuildInput {
         guild_name: String!
-        id_guild_master: ID!
+        id_guildmaster: Int!
         members: Int!
+        created_by: String!
     }
 `;

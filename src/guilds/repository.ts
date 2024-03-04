@@ -28,16 +28,16 @@ export const getGuildById = async (id: number) => {
 export const createGuild = async (guild: any) => {
     const created_at = new Date();
     const deleted = 0;
-    let query = 'INSERT INTO guilds (name, master, created_at, deleted) VALUES (?, ?, ?, ?)';
-    const [result] = await connection.execute(query, [guild.name, guild.master, created_at, deleted]);
+    let query = 'INSERT INTO guilds (guild_name, id_guildmaster, members, created_by, created_at, deleted) VALUES (?, ?, ?, ?, ?, ?)';
+    const [result] = await connection.execute(query, [guild.guild_name, guild.id_guildmaster, guild.members, guild.created_by, created_at, deleted]);
 
-    return result
+    return result;
 }
 
 export const updateGuild = async (id: number, guild: any) => {
     const updated_at = new Date();
-    let query = 'UPDATE guilds SET name = ?, master = ?, updated_at = ? WHERE id = ? AND deleted = 0';
-    const [result] = await connection.execute(query, [guild.name, guild.master, updated_at, id]);
+    let query = 'UPDATE guilds SET guild_name = ?, id_guildmaster = ?, members = ?, updated_at = ? WHERE id = ? AND deleted = 0';
+    const [result] = await connection.execute(query, [guild.guild_name, guild.id_guildmaster, updated_at, id]);
 
     return result;
 }

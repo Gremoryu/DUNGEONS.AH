@@ -30,7 +30,7 @@ export const createHunter = async (hunter: any) => {
         const created_at = new Date();
         const deleted = 0;
         let query = 'INSERT INTO hunters (id_guild, name, level, class, age, created_at, created_by, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        const [result] = await connection.execute(query, [hunter.id_guild, hunter.name, hunter.rank, hunter.class, hunter.age, created_at, hunter.created_by, deleted]);
+        const [result] = await connection.execute(query, [hunter.id_guild, hunter.name, hunter.level, hunter.class, hunter.age, created_at, hunter.created_by, deleted]);
         return result;
     }
     catch (err) {
@@ -40,8 +40,8 @@ export const createHunter = async (hunter: any) => {
 
 export const updateHunter = async (id: number, hunter: any) => {
     const updated_at = new Date();
-    let query = 'UPDATE hunters SET name = ?, rank = ?, class = ?, age = ?, updated_at = ? WHERE id = ? AND deleted = 0';
-    const [result] = await connection.execute(query, [hunter.name, hunter.rank, hunter.class, hunter.age, updated_at, id]);
+    let query = 'UPDATE hunters SET name = ?, level = ?, class = ?, age = ?, updated_at = ? WHERE id = ? AND deleted = 0';
+    const [result] = await connection.execute(query, [hunter.name, hunter.level, hunter.class, hunter.age, updated_at, id]);
 
     return result;
 }

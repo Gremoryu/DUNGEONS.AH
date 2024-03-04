@@ -3,7 +3,7 @@ export const Hunter = `
         id: ID
         id_guild: ID
         name: String!
-        rank: String!
+        level: String!
         class: String!
         age: Int!
         created_at: String!
@@ -17,7 +17,7 @@ export const Hunter = `
     input HunterInput {
         id_guild: ID
         name: String!
-        rank: String!
+        level: String!
         class: String!
         age: Int!
         created_by: String!
