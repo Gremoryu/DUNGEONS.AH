@@ -1,9 +1,9 @@
 import { connection } from '../database/db.config';
-import { Hunter } from './type';
 
-export const getHunters = async ({ offset, limit }: { offset: number, limit: number }, { sort, order }: { sort: number, order: string}) => {
+export const getHunters = async ({ page, limit }: { page: number, limit: number }, { sort, order }: { sort: number, order: string}) => {
 
-    let query = 'SELECT * FROM hunters';
+    let query = 'SELECT * FROM hunters WHERE deleted = 0';
+    const offset = (page - 1) * limit;
 
     if (sort && order) {
         query += ` ORDER BY ${sort} ${order}`;
@@ -18,25 +18,25 @@ export const getHunters = async ({ offset, limit }: { offset: number, limit: num
 }
 
 export const getHunterById = async (id: number) => {
-    let query = 'SELECT * FROM hunters WHERE id = ?';
+    let query = 'SELECT * FROM hunters WHERE id = ? AND deleted = 0';
     const [rows] = await connection.execute(query, [id]);
 
     return rows;
 }
 
 
-export const createHunter = async (hunter: Hunter) => {
+export const createHunter = async (hunter: any) => {
     const created_at = new Date();
     const deleted = 0;
-    let query = 'INSERT INTO hunters (name, rank, class, age, created_at, deleted) VALUES (?, ?, ?, ?, ?, ?)';
-    const [result] = await connection.execute(query, [hunter.name, hunter.rank, hunter.class, hunter.age, created_at, deleted]);
+    let query = 'INSERT INTO hunters (id_guild, name, rank, class, age, created_at, created_by, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const [result] = await connection.execute(query, [hunter.id_guild, hunter.name, hunter.rank, hunter.class, hunter.age, created_at, hunter.created_by, deleted]);
 
-    return result;
+    return result
 }
 
-export const updateHunter = async (id: number, hunter: HunterType) => {
+export const updateHunter = async (id: number, hunter: any) => {
     const updated_at = new Date();
-    let query = 'UPDATE hunters SET name = ?, rank = ?, class = ?, age = ?, updated_at = ? WHERE id = ?';
+    let query = 'UPDATE hunters SET name = ?, rank = ?, class = ?, age = ?, updated_at = ? WHERE id = ? AND deleted = 0';
     const [result] = await connection.execute(query, [hunter.name, hunter.rank, hunter.class, hunter.age, updated_at, id]);
 
     return result;
