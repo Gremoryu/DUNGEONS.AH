@@ -4,39 +4,39 @@ import { getGuilds, getGuildById, createGuild, updateGuild, deleteGuild } from "
 
 export const resolvers = {
     Query: {
-        hunters: (_: any, {page, limit}: {page: number, limit: number}, {sort, order}: {sort: number, order: string}) => getHunters({page, limit}, {sort, order}),
-        hunter: (_: any, {id}: {id: number}) => getHunterById(id),
-        dungeons: (_: any, {page, limit}: {page: number, limit: number}, {sort, order}: {sort: number, order: string}) => getDungeons({page, limit}, {sort, order}),
-        dungeon: (_: any, {id}: {id: number}) => getDungeonById(id),
-        guilds: (_: any, {page, limit}: {page: number, limit: number}, {sort, order}: {sort: number, order: string}) => getGuilds({page, limit}, {sort, order}),
-        guild: (_: any, {id}: {id: number}) => getGuildById(id)
+        hunters: (_: any, {page, limit}: any, {sort, order}: any) => getHunters({page, limit}, {sort, order}),
+        hunter: (_: any, {id}: any) => getHunterById(id),
+        dungeons: (_: any, {page, limit}: any, {sort, order}: any) => getDungeons({page, limit}, {sort, order}),
+        dungeon: (_: any, {id}: any) => getDungeonById(id),
+        guilds: (_: any, {page, limit}: any, {sort, order}: any) => getGuilds({page, limit}, {sort, order}),
+        guild: (_: any, {id}: any) => getGuildById(id)
     },
     Mutation: {
         createHunter: async (_: any, {hunter}: {hunter: any}) => {
             return await createHunter(hunter);
         },
-        updateHunter: async (_: any, {id, hunter}: {id: number, hunter: any}) => {
+        updateHunter: async (_: any, {id, hunter}: any) => {
             return await updateHunter(id, hunter);
         },
-        deleteHunter: async (_: any, {id}: {id: number}) => {
+        deleteHunter: async (_: any, {id}: any) => {
             return await deleteHunter(id);
         },
-        createDungeon: async (_: any, {dungeon}: {dungeon: any}) => {
+        createDungeon: async (_: any, {dungeon}: any) => {
             return await createDungeon(dungeon);
         },
-        updateDungeon: async (_: any, {id, dungeon}: {id: number, dungeon: any}) => {
+        updateDungeon: async (_: any, {id, dungeon}: any) => {
             return await updateDungeon(id, dungeon);
         },
-        deleteDungeon: async (_: any, {id}: {id: number}) => {
+        deleteDungeon: async (_: any, {id}: any) => {
             return await deleteDungeon(id);
         },
-        createGuild: async (_: any, {guild}: {guild: any}) => {
+        createGuild: async (_: any, {guild}: any) => {
             return await createGuild(guild);
         },
-        updateGuild: async (_: any, {id, guild}: {id: number, guild: any}) => {
+        updateGuild: async (_: any, {id, guild}: any) => {
             return await updateGuild(id, guild);
         },
-        deleteGuild: async (_: any, {id}: {id: number}) => {
+        deleteGuild: async (_: any, {id}: any) => {
             return await deleteGuild(id);
         }
     }

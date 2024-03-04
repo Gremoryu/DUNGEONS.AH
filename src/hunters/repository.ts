@@ -1,6 +1,6 @@
 import { connection } from '../database/db.config';
 
-export const getHunters = async ({ page, limit }: { page: number, limit: number }, { sort, order }: { sort: number, order: string}) => {
+export const getHunters = async ({ page, limit }: { page: number, limit: number }, { sort, order }: { sort: number, order: string }) => {
 
     let query = 'SELECT * FROM hunters WHERE deleted = 0';
     const offset = (page - 1) * limit;
@@ -26,12 +26,16 @@ export const getHunterById = async (id: number) => {
 
 
 export const createHunter = async (hunter: any) => {
-    const created_at = new Date();
-    const deleted = 0;
-    let query = 'INSERT INTO hunters (id_guild, name, rank, class, age, created_at, created_by, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    const [result] = await connection.execute(query, [hunter.id_guild, hunter.name, hunter.rank, hunter.class, hunter.age, created_at, hunter.created_by, deleted]);
-
-    return result
+    try {
+        const created_at = new Date();
+        const deleted = 0;
+        let query = 'INSERT INTO hunters (id_guild, name, level, class, age, created_at, created_by, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        const [result] = await connection.execute(query, [hunter.id_guild, hunter.name, hunter.rank, hunter.class, hunter.age, created_at, hunter.created_by, deleted]);
+        return result;
+    }
+    catch (err) {
+        throw err;
+    }
 }
 
 export const updateHunter = async (id: number, hunter: any) => {

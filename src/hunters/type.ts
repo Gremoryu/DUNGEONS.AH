@@ -1,7 +1,7 @@
 export const Hunter = `
     type Hunter {
-        id: ID!
-        id_guild: ID!
+        id: ID
+        id_guild: ID
         name: String!
         rank: String!
         class: String!
@@ -14,12 +14,12 @@ export const Hunter = `
         deleted: Int
     }
 
-    type HunterInput {
-        id: ID!
-        id_guild: ID!
+    input HunterInput {
+        id_guild: ID
         name: String!
         rank: String!
         class: String!
         age: Int!
+        created_by: String!
     }
 `;

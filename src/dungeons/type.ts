@@ -1,17 +1,24 @@
 export const Dungeon = `
     type Dungeon {
-        id: ID!
-        name: String!
-        guild: String!
+        id: ID
+        direction: String!
+        rank: String!
+        id_owner_guild: ID!
+        creation_date: String!
+        status: String!
         created_at: String!
+        created_by: String!
         updated_at: String
+        updated_by: String
         deleted_at: String
         deleted: Int
     }
 
-    type DungeonInput {
-        id: ID!
-        name: String!
-        guild: String!
+    input DungeonInput {
+        direction: String!
+        rank: String!
+        id_owner_guild: ID!
+        creation_date: String!
+        status: String!
     }
 `;

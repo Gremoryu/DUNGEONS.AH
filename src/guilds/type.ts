@@ -1,17 +1,20 @@
 export const Guild = `
     type Guild {
-        id: ID!
-        name: String!
-        master: String!
+        id: ID
+        guild_name: String!
+        id_guild_master: ID!
+        members: Int!
         created_at: String!
+        created_by: String!
         updated_at: String
+        updated_by: String
         deleted_at: String
         deleted: Int
     }
 
-    type GuildInput {
-        id: ID!
-        name: String!
-        master: String!
+    input GuildInput {
+        guild_name: String!
+        id_guild_master: ID!
+        members: Int!
     }
 `;

@@ -3,5 +3,4 @@ export const HunterMutation = `
         createHunter(hunter: HunterInput): Hunter
         updateHunter(id: ID!, hunter: HunterInput): Hunter
         deleteHunter(id: ID!): Hunter
-    }
 `;
