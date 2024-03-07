@@ -1,6 +1,7 @@
 import { getHunters, getHunterById, createHunter, updateHunter, deleteHunter } from "./hunters/repository";
 import { getDungeons, getDungeonById, createDungeon, updateDungeon, deleteDungeon } from "./dungeons/repository";
 import { getGuilds, getGuildById, createGuild, updateGuild, deleteGuild } from "./guilds/repository";
+import { EventNotification } from "./services/Notifications/EventNotification";
 
 export const resolvers = {
     Query: {
@@ -13,32 +14,50 @@ export const resolvers = {
     },
     Mutation: {
         createHunter: async (_: any, {hunter}: {hunter: any}) => {
-            return await createHunter(hunter);
+            const newHunter = await createHunter(hunter);
+            EventNotification('New Hunter Created: ' + newHunter.name);
+            return newHunter;
         },
         updateHunter: async (_: any, {id, hunter}: any) => {
-            return await updateHunter(id, hunter);
+            const updatedHunter = await updateHunter(id, hunter);
+            EventNotification('Hunter Updated: ' + updatedHunter.name);
+            return updatedHunter;
         },
         deleteHunter: async (_: any, {id}: any) => {
-            return await deleteHunter(id);
+            const deletedHunter = await deleteHunter(id);
+            EventNotification('Hunter Deleted');
+            return deletedHunter;
         },
         createDungeon: async (_: any, {dungeon}: any) => {
-            return await createDungeon(dungeon);
+            const newDungeon = await createDungeon(dungeon);
+            EventNotification('New Dungeon Created: ' + newDungeon.direction);
+            return newDungeon;
         },
         updateDungeon: async (_: any, {id, dungeon}: any) => {
-            return await updateDungeon(id, dungeon);
+            const updatedDungeon = await updateDungeon(id, dungeon);
+            EventNotification('Dungeon Data on ' + updatedDungeon.direction + ' Updated');
+            return updatedDungeon;
         },
         deleteDungeon: async (_: any, {id}: any) => {
-            return await deleteDungeon(id);
+            const deletedDungeon = await deleteDungeon(id);
+            EventNotification('Dungeon Deleted');
+            return deletedDungeon;
         },
         createGuild: async (_: any, {guild}: any) => {
-
-            return await createGuild(guild);
+            const newGuild = await createGuild(guild);
+            EventNotification('New Guild Created: ' + newGuild.guild_name);
+            console.log('New Guild Created: ' + newGuild.guild_name);
+            return newGuild;
         },
         updateGuild: async (_: any, {id, guild}: any) => {
-            return await updateGuild(id, guild);
+            const updatedGuild = await updateGuild(id, guild);
+            EventNotification('Guild Updated: ' + updatedGuild.guild_name);
+            return updatedGuild;
         },
         deleteGuild: async (_: any, {id}: any) => {
-            return await deleteGuild(id);
+            const deletedGuild = await deleteGuild(id);
+            EventNotification('Guild Deleted');
+            return deletedGuild;
         }
     }
 }

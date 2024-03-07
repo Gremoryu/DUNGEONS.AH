@@ -20,5 +20,6 @@ export const Dungeon = `
         id_owner_guild: ID!
         creation_date: String!
         status: String!
+        created_by: String!
     }
 `;

@@ -37,7 +37,6 @@ export const createGuild = async (guild: any) => {
         const [result] = await connection.execute(query, [guild.guild_name, guild.id_guildmaster, guild.members, guild.created_by, created_at, deleted]);
         const insertId = (result as any).insertId;
         const object = await getGuildById(insertId);
-
         return object;
         
 }

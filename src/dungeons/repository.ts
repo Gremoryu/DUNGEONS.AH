@@ -30,8 +30,8 @@ export const getDungeonById = async (id: number) => {
 export const createDungeon = async (dungeon: any) => {
     const created_at = new Date();
     const deleted = 0;
-    let query = 'INSERT INTO dungeons (name, level, created_at, deleted) VALUES (?, ?, ?, ?)';
-    const [result] = await connection.execute(query, [dungeon.name, dungeon.level, created_at, deleted]);
+    let query = 'INSERT INTO dungeons (direction, level, id_owner_guild, creation_date, status, created_by, created_at, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const [result] = await connection.execute(query, [dungeon.direction, dungeon.level, dungeon. id_owner_guild, dungeon.creation_date, dungeon.status, dungeon.created_by, created_at, deleted]);
     const insertId = (result as any).insertId;
     const object = await getDungeonById(insertId);
     return object;
@@ -39,8 +39,8 @@ export const createDungeon = async (dungeon: any) => {
 
 export const updateDungeon = async (id: number, dungeon: any) => {
     const updated_at = new Date();
-    let query = 'UPDATE dungeons SET name = ?, level = ?, updated_at = ? WHERE id = ? AND deleted = 0';
-    const [result] = await connection.execute(query, [dungeon.name, dungeon.level, updated_at, id]);
+    let query = 'UPDATE dungeons SET direction = ?, level = ?, id_owner_guild = ?, creation_date = ?, status = ?, created_by = ? WHERE id = ? AND deleted = 0';
+    const [result] = await connection.execute(query, [dungeon.direction, dungeon.level, dungeon.id_owner_guild, dungeon.creation_date, dungeon.status, dungeon.created_by, id]);
 
     const object = await getDungeonById(id);
     return object;
