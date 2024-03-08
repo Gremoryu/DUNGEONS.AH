@@ -23,26 +23,25 @@ export const getAdmins = async ({ page, limit }: { page: number, limit: number }
 export const getAdminByUser = async (UserName: string): Promise<AdminEntity> => {
     let query = 'SELECT * FROM admin WHERE user = ? AND deleted = 0';
     const [rows] = await connection.execute(query, [UserName]);
-    const result = rows as RowDataPacket[];
-    return result[0] as AdminEntity;
+    const result = rows as any;
+    return result[0];
 }
 
 export const getAdminById = async (id: number) => {
     let query = 'SELECT * FROM admin WHERE id = ?';
     const [rows] = await connection.execute(query, [id]);
-    const result = rows as RowDataPacket[];
+    const result = rows as any;
     return result[0];
 }
 
-export const createAdmin = async (UserName: string, Password: string, id: number) => {
+export const createAdmin = async (admin: any) => {
     try {
-        console.log(Password)
-        const hashedPassword = await bcrypt.hash(Password, 10);
+        const hashedPassword = await bcrypt.hash(admin.password, 10);
         console.log(hashedPassword);
         const created_at = new Date();
         const deleted = 0;
         let query = 'INSERT INTO admin (user, password, created_at, created_by, deleted) VALUES (?, ?, ?, ?, ?)';
-        const [result] = await connection.execute(query, [UserName, hashedPassword, created_at, id, deleted]);
+        const [result] = await connection.execute(query, [admin.user, hashedPassword, created_at, admin.created_by, deleted]);
         const insertId = (result as any).insertId;
         const object = await getAdminById(insertId);
         return object;

@@ -3,6 +3,7 @@ import { getDungeons, getDungeonById, createDungeon, updateDungeon, deleteDungeo
 import { getGuilds, getGuildById, createGuild, updateGuild, deleteGuild } from "./guilds/repository";
 import { getAdmins,getAdminById,getAdminByUser,createAdmin,updateAdmin,deleteAdmin } from "./admin/repository";
 import { EventNotification } from "./services/Notifications/EventNotification";
+import { login } from "./Authentication/auth";
 
 export const resolvers = {
     Query: {
@@ -62,8 +63,8 @@ export const resolvers = {
             EventNotification('Guild Deleted');
             return deletedGuild;
         },
-        createAdmin: async (_: any, {UserName,Password, id}: any) => {
-            const newAdmin = await createAdmin(UserName,Password, id);
+        createAdmin: async (_: any, {admin}: any) => {
+            const newAdmin = await createAdmin(admin);
             EventNotification('New Admin Created: ' + newAdmin.user);
             return newAdmin;
         },
@@ -78,9 +79,13 @@ export const resolvers = {
             return deletedAdmin;
         },
         loginAdmin: async (_: any, {UserName, Password}: any) => {
-            const admin = await getAdminByUser(UserName);
-            EventNotification('Admin Logged In: ' + admin.user);
-            return admin;
+            try {
+                const token = await login(UserName, Password);
+                EventNotification('Admin Logged In: ' + UserName);
+                return token;
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 }
