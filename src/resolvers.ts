@@ -1,6 +1,7 @@
 import { getHunters, getHunterById, createHunter, updateHunter, deleteHunter } from "./hunters/repository";
 import { getDungeons, getDungeonById, createDungeon, updateDungeon, deleteDungeon } from "./dungeons/repository";
 import { getGuilds, getGuildById, createGuild, updateGuild, deleteGuild } from "./guilds/repository";
+import { getAdmins,getAdminById,getAdminByUser,createAdmin,updateAdmin,deleteAdmin } from "./admin/repository";
 import { EventNotification } from "./services/Notifications/EventNotification";
 
 export const resolvers = {
@@ -10,7 +11,9 @@ export const resolvers = {
         dungeons: (_: any, {page, limit, sort, order}: any) => getDungeons({page, limit}, {sort, order}),
         dungeon: (_: any, {id}: any) => getDungeonById(id),
         guilds: (_: any, {page, limit, sort, order}: any) => getGuilds({page, limit}, {sort, order}),
-        guild: (_: any, {id}: any) => getGuildById(id)
+        guild: (_: any, {id}: any) => getGuildById(id),
+        admins: (_: any, {page, limit, sort, order}: any) => getAdmins({page, limit}, {sort, order}),
+        admin: (_: any, {id}: any) => getAdminById(id),
     },
     Mutation: {
         createHunter: async (_: any, {hunter}: {hunter: any}) => {
@@ -58,6 +61,26 @@ export const resolvers = {
             const deletedGuild = await deleteGuild(id);
             EventNotification('Guild Deleted');
             return deletedGuild;
+        },
+        createAdmin: async (_: any, {UserName,Password, id}: any) => {
+            const newAdmin = await createAdmin(UserName,Password, id);
+            EventNotification('New Admin Created: ' + newAdmin.user);
+            return newAdmin;
+        },
+        updateAdmin: async (_: any, {id, admin}: any) => {
+            const updatedAdmin = await updateAdmin(id, admin);
+            EventNotification('Admin Updated: ' + updatedAdmin.user);
+            return updatedAdmin;
+        },
+        deleteAdmin: async (_: any, {id}: any) => {
+            const deletedAdmin = await deleteAdmin(id);
+            EventNotification('Admin Deleted');
+            return deletedAdmin;
+        },
+        loginAdmin: async (_: any, {UserName, Password}: any) => {
+            const admin = await getAdminByUser(UserName);
+            EventNotification('Admin Logged In: ' + admin.user);
+            return admin;
         }
     }
 }
